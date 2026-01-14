@@ -1,14 +1,13 @@
-#include "anomaly_engine.h"#include "anomaly_engine.h"
+#include "rule_engine.h"
+#include "anomaly_engine.h"
+#include "../common/engine_log.h"
 
 
-
-
-
-
-
-}    return (z > 2.0f || z < -2.0f) ? 1.0f : 0.0f;    float z = (value - mean) / stddev;    if (stddev == 0) return 0.0f;float anomaly_score(float value, float mean, float stddev) {
-float anomaly_score(float value, float mean, float stddev) {
-    if (stddev == 0) return 0.0f;
-    float z = (value - mean) / stddev;
-    return (z > 2.0f || z < -2.0f) ? 1.0f : 0.0f;
+security_decision_t engine_decide(float rule_score, float anomaly)
+{
+security_decision_t d;
+d.risk_score = rule_score + anomaly;
+d.action = (d.risk_score > 1.0f) ? ACTION_BLOCK : ACTION_ALLOW;
+ENGINE_LOG("INFO", "Risk=%.2f", d.risk_score);
+return d;
 }
