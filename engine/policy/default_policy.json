@@ -1,0 +1,4 @@
+{
+  "allow_rssi_min": -80,
+  "block_on_write_rate": 10
+}
